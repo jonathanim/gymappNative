@@ -1,23 +1,94 @@
-import React from 'react'
-import { View, TouchableOpacity, StyleSheet, TextInput, Text } from 'react-native'
+
+import React, { useState } from 'react'
+import {
+    View, TouchableOpacity, StyleSheet, TextInput, Text, ScrollView,
+    TouchableWithoutFeedback, Keyboard, FlatList
+} from 'react-native'
+import { Slider } from 'react-native-elements'
 
 
 function Tracker() {
-    return (
-        <View style={styles.mainContainer}>
-            <TextInput type="text" style={styles.input} placeholder="add an exercise" />
-            <TextInput
-                type="text" style={styles.input} placeholder="number of sets"
-            />
-            <TextInput
-                type="text" style={styles.input} placeholder="number of reps"
-            />
-            <TouchableOpacity style={styles.buttons}>
-                <Text style={styles.textBtn}>submit</Text>
-            </TouchableOpacity>
+
+    const [exercises, setExercises] = useState([]);
+    const [exercise, setExercise] = useState({})
+    const [name, setName] = useState('');
+    const [sets, setSets] = useState(0);
+    const [reps, setReps] = useState(0);
+
+    const handleSubmit = () => {
+        setExercise({
+            name: name,
+            sets: sets,
+            reps: reps
+        })
+        setExercises([...exercises, exercise])
+
+        reset()
+    }
+    const reset = () => {
+        setName('');
+        setSets(0);
+        setReps(0);
+    }
+
+    const renderExercise = (item) => (
+        <View key={item.name} style={styles.listItem}>
+            <Text style={{ color: 'white' }}>
+                {item.name}
+            </Text>
+            <Text style={{ color: 'white' }}>
+                {item.sets}
+            </Text>
         </View>
     )
+
+    return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+            <View style={styles.mainContainer}>
+                <Text style={styles.text}>Exercise: {name}</Text>
+                <TextInput
+                    type="text"
+                    name='name'
+                    style={styles.input}
+                    placeholder="add an exercise"
+                    value={name}
+                    onChangeText={(text) => setName(text)}
+                />
+
+                <Slider
+                    value={sets}
+                    name="sets"
+                    minimumValue={1}
+                    maximumValue={20}
+                    onSlidingComplete={value => setSets(Math.round(value))}
+                />
+                <Text style={styles.text}>Sets: {sets}</Text>
+                <Slider
+                    name="reps"
+                    value={reps}
+                    minimumValue={1}
+                    maximumValue={100}
+                    onSlidingComplete={value => setReps(Math.round(value))}
+                />
+                <Text style={styles.text}>Reps:{reps}</Text>
+                <TouchableOpacity
+                    style={styles.buttons}
+                    onPress={() => handleSubmit()}
+                >
+                    <Text style={styles.textBtn}>submit</Text>
+                </TouchableOpacity>
+                <ScrollView>
+                    {exercises}
+                </ScrollView>
+            </View>
+
+        </TouchableWithoutFeedback >
+    )
 }
+
+
+
+
 
 export default Tracker
 
@@ -82,5 +153,15 @@ const styles = StyleSheet.create({
         fontSize: 15,
         backgroundColor: 'white'
     },
+    exercisesBox: {
+        flex: 2,
+        borderWidth: 5,
+        height: 'auto'
+    },
+    listItem: {
+        padding: 10,
+        backgroundColor: 'purple',
+
+    }
 
 })
