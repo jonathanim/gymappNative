@@ -4,9 +4,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './components/Home';
 import Stopwatch from './components/TimerComponents/Stopwatch';
-import Countdown from './components/Countdown';
+import Countdown from './components/TimerComponents/Countdown';
 import Tracker from './components/Tracker';
-import Videos from './components/Videos';
+import Tutorials from './components/Tutorials';
 
 
 
@@ -34,6 +34,9 @@ export default function App() {
           else if (route.name === 'Countdown') {
             iconName = focused ? 'timer' : 'timer-outline';
           }
+          else if (route.name === 'Tutorials') {
+            iconName = focused ? 'videocam' : 'videocam-outline';
+          }
 
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={'#f75990'} />;
@@ -48,8 +51,8 @@ export default function App() {
           name="Tracker"
           component={Tracker} />
         <Tab.Screen
-          name="Videos"
-          component={Videos} />
+          name="Tutorials"
+          component={Tutorials} />
         <Tab.Screen
           name="Stopwatch"
           component={Stopwatch} />

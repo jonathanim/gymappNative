@@ -7,29 +7,33 @@ import {
 } from 'react-native'
 import { Slider } from 'react-native-elements'
 import { Icon } from 'react-native-elements';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 
 function Tracker() {
 
 
-    const [exercises, setExercises] = useState([]);
+    const [exercises, setExercises] = useState([{ name: 'example', sets: 2, reps: 10, completed: false }]);
     const [name, setName] = useState('');
-    const [sets, setSets] = useState(0);
-    const [reps, setReps] = useState(0);
+    const [sets, setSets] = useState(1);
+    const [reps, setReps] = useState(1);
     const [selectedId, setSelectedId] = useState(null);
+    const [completed, setCompleted] = useState(false);
 
-    function addItem(exercise) {
-        setExercises([...exercises, exercise])
-    }
+
     const handleSubmit = () => {
         const addExercise = {
             name,
             reps,
             sets,
+            completed
         }
         addItem(addExercise)
         console.log(exercises)
         reset()
+    }
+    function addItem(exercise) {
+        setExercises([...exercises, exercise])
     }
 
     const removeItem = (item) => {
@@ -39,15 +43,27 @@ function Tracker() {
 
     const reset = () => {
         setName('');
-        setSets(0);
-        setReps(0);
+        setSets(1);
+        setReps(1);
+    }
+    // function makeCompleted(exercise) {
+    //     const completed = exercise['completed'] = !completed
+    //     setExercises(...exercises, ...completed)
+    // }
+
+    const handleCompleted = (item) => {
+        const completedExercise = exercises.filter((ex) => {
+            return ex.name === item
+        })
+        // makeCompleted(completedExercise)
+
     }
 
     const Item = ({ item }) => (
-        <TouchableOpacity key={item.name} onPress={() => setSelectedId(item.name)} style={[styles.item]}>
-            <Text style={[styles.title]}>{item.name}</Text>
-            <Text style={[styles.sets]}>{item.sets}</Text>
-            <Text style={[styles.reps]}>{item.reps}</Text>
+        <TouchableOpacity key={item.name} onPress={() => setSelectedId(item.name), () => handleCompleted(item.name)} style={[styles.item]}>
+            <Text style={[styles.exercise, { textDecorationLine: completed ? 'line-through' : 'none' }]}>{item.name}</Text>
+            <Text style={[styles.exercise, { textDecorationLine: completed ? 'line-through' : 'none' }]}>{item.sets}</Text>
+            <Text style={[styles.exercise, { textDecorationLine: completed ? 'line-through' : 'none' }]}>{item.reps}</Text>
             <Icon name='close' color="red" size={50} onPress={() => removeItem(item.name)} />
         </TouchableOpacity>
     );
@@ -72,7 +88,7 @@ function Tracker() {
                     name="sets"
                     minimumValue={1}
                     maximumValue={20}
-                    onSlidingComplete={value => setSets(Math.round(value))}
+                    onValueChange={value => setSets(Math.round(value))}
                 />
                 <Text style={styles.text}>Sets: {sets}</Text>
                 <Slider
@@ -80,7 +96,7 @@ function Tracker() {
                     value={reps}
                     minimumValue={1}
                     maximumValue={100}
-                    onSlidingComplete={value => setReps(Math.round(value))}
+                    onValueChange={value => setReps(Math.round(value))}
                 />
                 <Text style={styles.text}>Reps:{reps}</Text>
                 <TouchableOpacity
@@ -94,6 +110,7 @@ function Tracker() {
                         data={exercises}
                         renderItem={Item}
                         extraData={selectedId}
+                        keyExtractor={item => item.name}
                     />
                 </View>
             </View >
@@ -176,26 +193,13 @@ const styles = StyleSheet.create({
         borderWidth: 4,
         margin: 5
 
-    }, title: {
+    }, exercise: {
         textAlign: 'center',
         color: 'black',
         fontSize: 20,
         flexDirection: 'row',
-        margin: 20
-    },
-    reps: {
-        textAlign: 'center',
-        color: 'black',
-        fontSize: 20,
-        flexDirection: 'row',
-        margin: 20
-    },
-    sets: {
-        textAlign: 'center',
-        color: 'black',
-        fontSize: 20,
-        flexDirection: 'row',
-        margin: 20
+        margin: 20,
+        textDecorationLine: 'none'
     },
     item: {
         flexDirection: 'row',
@@ -203,7 +207,10 @@ const styles = StyleSheet.create({
         alignSelf: 'auto',
         alignItems: 'center',
         borderWidth: 5,
-        margin: 5
-    },
+        margin: 5,
+
+    }, line: {
+        textDecorationLine: 'line-through'
+    }
 
 })
