@@ -21,7 +21,7 @@ export default class Stopwatch extends Component {
             this.setState({
                 timerTime: Date.now() - this.state.timerStart
             });
-        }, 10);
+        }, 20);
     };
 
     stopTimer = () => {

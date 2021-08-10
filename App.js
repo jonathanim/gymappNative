@@ -6,12 +6,13 @@ import Home from './components/Home';
 import Stopwatch from './components/TimerComponents/Stopwatch';
 import Countdown from './components/Countdown';
 import Tracker from './components/Tracker';
-const Tab = createBottomTabNavigator();
+import Videos from './components/Videos';
+
 
 
 
 export default function App() {
-
+  const Tab = createBottomTabNavigator();
 
   return (
     <NavigationContainer>
@@ -46,6 +47,9 @@ export default function App() {
         <Tab.Screen
           name="Tracker"
           component={Tracker} />
+        <Tab.Screen
+          name="Videos"
+          component={Videos} />
         <Tab.Screen
           name="Stopwatch"
           component={Stopwatch} />

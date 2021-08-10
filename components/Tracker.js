@@ -1,46 +1,58 @@
 
 import React, { useState } from 'react'
+import { FlatList } from 'react-native';
 import {
-    View, TouchableOpacity, StyleSheet, TextInput, Text, ScrollView,
-    TouchableWithoutFeedback, Keyboard, FlatList
+    View, TouchableOpacity, StyleSheet, TextInput, Text,
+    TouchableWithoutFeedback, Keyboard,
 } from 'react-native'
 import { Slider } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 
 function Tracker() {
 
+
     const [exercises, setExercises] = useState([]);
-    const [exercise, setExercise] = useState({})
     const [name, setName] = useState('');
     const [sets, setSets] = useState(0);
     const [reps, setReps] = useState(0);
+    const [selectedId, setSelectedId] = useState(null);
 
-    const handleSubmit = () => {
-        setExercise({
-            name: name,
-            sets: sets,
-            reps: reps
-        })
+    function addItem(exercise) {
         setExercises([...exercises, exercise])
-
+    }
+    const handleSubmit = () => {
+        const addExercise = {
+            name,
+            reps,
+            sets,
+        }
+        addItem(addExercise)
+        console.log(exercises)
         reset()
     }
+
+    const removeItem = (item) => {
+        const removeItem = exercises.filter(ex => ex.name !== item)
+        setExercises(removeItem)
+    }
+
     const reset = () => {
         setName('');
         setSets(0);
         setReps(0);
     }
 
-    const renderExercise = (item) => (
-        <View key={item.name} style={styles.listItem}>
-            <Text style={{ color: 'white' }}>
-                {item.name}
-            </Text>
-            <Text style={{ color: 'white' }}>
-                {item.sets}
-            </Text>
-        </View>
-    )
+    const Item = ({ item }) => (
+        <TouchableOpacity key={item.name} onPress={() => setSelectedId(item.name)} style={[styles.item]}>
+            <Text style={[styles.title]}>{item.name}</Text>
+            <Text style={[styles.sets]}>{item.sets}</Text>
+            <Text style={[styles.reps]}>{item.reps}</Text>
+            <Icon name='close' color="red" size={50} onPress={() => removeItem(item.name)} />
+        </TouchableOpacity>
+    );
+
+
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -77,10 +89,14 @@ function Tracker() {
                 >
                     <Text style={styles.textBtn}>submit</Text>
                 </TouchableOpacity>
-                <ScrollView>
-                    {exercises}
-                </ScrollView>
-            </View>
+                <View style={{ flex: 3 }}>
+                    <FlatList
+                        data={exercises}
+                        renderItem={Item}
+                        extraData={selectedId}
+                    />
+                </View>
+            </View >
 
         </TouchableWithoutFeedback >
     )
@@ -153,15 +169,41 @@ const styles = StyleSheet.create({
         fontSize: 15,
         backgroundColor: 'white'
     },
-    exercisesBox: {
-        flex: 2,
-        borderWidth: 5,
-        height: 'auto'
-    },
     listItem: {
+        flex: 1,
         padding: 10,
-        backgroundColor: 'purple',
+        borderColor: 'black',
+        borderWidth: 4,
+        margin: 5
 
-    }
+    }, title: {
+        textAlign: 'center',
+        color: 'black',
+        fontSize: 20,
+        flexDirection: 'row',
+        margin: 20
+    },
+    reps: {
+        textAlign: 'center',
+        color: 'black',
+        fontSize: 20,
+        flexDirection: 'row',
+        margin: 20
+    },
+    sets: {
+        textAlign: 'center',
+        color: 'black',
+        fontSize: 20,
+        flexDirection: 'row',
+        margin: 20
+    },
+    item: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignSelf: 'auto',
+        alignItems: 'center',
+        borderWidth: 5,
+        margin: 5
+    },
 
 })
