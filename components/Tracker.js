@@ -7,37 +7,39 @@ import {
 } from 'react-native'
 import { Slider } from 'react-native-elements'
 import { Icon } from 'react-native-elements';
-import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
+import uuid from 'react-uuid'
 
 
 function Tracker() {
 
 
-    const [exercises, setExercises] = useState([{ name: 'example', sets: 2, reps: 10, completed: false }]);
+    const [exercises, setExercises] = useState([]);
     const [name, setName] = useState('');
     const [sets, setSets] = useState(1);
     const [reps, setReps] = useState(1);
+    const [id, setId] = useState(1)
     const [selectedId, setSelectedId] = useState(null);
     const [completed, setCompleted] = useState(false);
 
 
     const handleSubmit = () => {
         const addExercise = {
+            id: uuid(1),
             name,
             reps,
             sets,
             completed
         }
         addItem(addExercise)
-        console.log(exercises)
         reset()
     }
+
     function addItem(exercise) {
         setExercises([...exercises, exercise])
     }
 
-    const removeItem = (item) => {
-        const removeItem = exercises.filter(ex => ex.name !== item)
+    const removeItem = (id) => {
+        const removeItem = exercises.filter(ex => ex.id !== id)
         setExercises(removeItem)
     }
 
@@ -45,26 +47,30 @@ function Tracker() {
         setName('');
         setSets(1);
         setReps(1);
+        setCompleted(false)
     }
-    // function makeCompleted(exercise) {
-    //     const completed = exercise['completed'] = !completed
-    //     setExercises(...exercises, ...completed)
-    // }
 
-    const handleCompleted = (item) => {
-        const completedExercise = exercises.filter((ex) => {
-            return ex.name === item
+    const handleCompleted = (id) => {
+        const index = exercises.findIndex((ex) => ex.id === id)
+        const exercise = exercises.find((ex) => ex.id === id)
+        const newExercises = [...exercises].map((ex, idx) => {
+            if (idx === index) {
+                exercise.completed = !exercise.completed
+            }
+            return ex
         })
-        // makeCompleted(completedExercise)
 
+        console.log(newExercises)
+        setExercises(newExercises)
     }
 
     const Item = ({ item }) => (
-        <TouchableOpacity key={item.name} onPress={() => setSelectedId(item.name), () => handleCompleted(item.name)} style={[styles.item]}>
-            <Text style={[styles.exercise, { textDecorationLine: completed ? 'line-through' : 'none' }]}>{item.name}</Text>
-            <Text style={[styles.exercise, { textDecorationLine: completed ? 'line-through' : 'none' }]}>{item.sets}</Text>
-            <Text style={[styles.exercise, { textDecorationLine: completed ? 'line-through' : 'none' }]}>{item.reps}</Text>
-            <Icon name='close' color="red" size={50} onPress={() => removeItem(item.name)} />
+        <TouchableOpacity key={id} onPress={() => setSelectedId(item.id)} style={[styles.item]}>
+            <Text style={[styles.exercise, { textDecorationLine: item.completed ? 'line-through' : 'none' }, { color: item.completed ? 'green' : 'black', fontSize: item.completed ? 25 : 20 }]}>{item.name}</Text>
+            <Text style={[styles.exercise, { textDecorationLine: item.completed ? 'line-through' : 'none' }, { color: item.completed ? 'green' : 'black', fontSize: item.completed ? 25 : 20 }]}>{item.sets}</Text>
+            <Text style={[styles.exercise, { textDecorationLine: item.completed ? 'line-through' : 'none' }, { color: item.completed ? 'green' : 'black', fontSize: item.completed ? 25 : 20 }]}>{item.reps}</Text>
+            <Icon name='check' color="green" size={50} onPress={() => handleCompleted(item.id)} />
+            <Icon name='close' color="red" size={50} onPress={() => removeItem(item.id)} />
         </TouchableOpacity>
     );
 
@@ -106,11 +112,12 @@ function Tracker() {
                     <Text style={styles.textBtn}>submit</Text>
                 </TouchableOpacity>
                 <View style={{ flex: 3 }}>
+                    <Text style={{ textAlign: 'center', fontSize: 30 }}>Exercise Sets Reps</Text>
                     <FlatList
                         data={exercises}
                         renderItem={Item}
                         extraData={selectedId}
-                        keyExtractor={item => item.name}
+                        keyExtractor={item => item.id}
                     />
                 </View>
             </View >
@@ -196,10 +203,9 @@ const styles = StyleSheet.create({
     }, exercise: {
         textAlign: 'center',
         color: 'black',
-        fontSize: 20,
+        fontSize: 15,
         flexDirection: 'row',
-        margin: 20,
-        textDecorationLine: 'none'
+        margin: 10,
     },
     item: {
         flexDirection: 'row',
@@ -209,8 +215,6 @@ const styles = StyleSheet.create({
         borderWidth: 5,
         margin: 5,
 
-    }, line: {
-        textDecorationLine: 'line-through'
     }
 
 })
