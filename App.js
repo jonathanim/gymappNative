@@ -4,9 +4,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Home from './components/Home';
 import Stopwatch from './components/TimerComponents/Stopwatch';
-import Countdown from './components/TimerComponents/Countdown';
+// import Countdown from './components/TimerComponents/Countdown';
 import Tracker from './components/Tracker';
 import Tutorials from './components/Tutorials';
+import BMIcomponent from './components/BMIcomponent';
 
 
 
@@ -31,8 +32,11 @@ export default function App() {
           } else if (route.name === 'Tracker') {
             iconName = focused ? 'list' : 'list-outline';
           }
-          else if (route.name === 'Countdown') {
-            iconName = focused ? 'timer' : 'timer-outline';
+          // else if (route.name === 'Countdown') {
+          //   iconName = focused ? 'timer' : 'timer-outline';
+          // }
+          else if (route.name === 'BMI') {
+            iconName = focused ? 'calculator' : 'calculator-outline';
           }
           else if (route.name === 'Tutorials') {
             iconName = focused ? 'videocam' : 'videocam-outline';
@@ -56,9 +60,12 @@ export default function App() {
         <Tab.Screen
           name="Stopwatch"
           component={Stopwatch} />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Countdown"
-          component={Countdown} />
+          component={Countdown} /> */}
+        <Tab.Screen
+          name="BMI"
+          component={BMIcomponent} />
 
       </Tab.Navigator>
     </NavigationContainer >

@@ -14,7 +14,7 @@ function Tutorials() {
 
     useEffect(() => {
         setData([...DATA])
-    }, [data])25
+    }, [data])
 
     const handleDisplay = (video) => {
         const index = data.findIndex((d) => d === video)
