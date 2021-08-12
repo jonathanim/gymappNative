@@ -1,48 +1,48 @@
 export const DATA = [
     {
         title: 'Squat',
-        uri: 'https://media.self.com/photos/5c8686e2b43cf177fa569d97/master/w_1600,c_limit/bodyweight-squat-Amanda_001.gif',
-        Description: 'A squat is a classic exercise that shows up in tons of workouts. Learning a basic bodyweight squat will help you master the hip-hinge movement. It’s a compound exercise, meaning it works more than one muscle group at once, including the glutes, quads, and core.'
-    },
+        uri: 'xqvCmoLULNY',
+        show: false
+    }, {
+        title: 'Front Squat',
+        uri: 'uYumuL_G_V0',
+        show: false
+    }
+    ,
     {
         title: 'DeadLift',
-        url: '',
-        Targets: []
+        url: '1ZXobu7JvvE',
+        show: false
     },
     {
-        title: 'reverse lunge',
-        url: '',
-        Targets: []
+        title: 'Push-ups',
+        url: '0pkjOk0EiAk',
+        show: false
     },
     {
-        title: 'Bent over Row',
-        url: '',
-        Targets: []
+        title: 'L Pull-up',
+        url: 'qeGS55RHBUU?t=1',
+        show: false
     },
     {
-        title: 'plank',
-        url: '',
-        Targets: []
-    },
-    {
-        title: 'push up',
-        url: '',
-        Targets: []
-    },
-    {
-        title: 'Glute bridge',
-        url: '',
-        Targets: []
+        title: 'Dumbbell Overhead Squat',
+        url: 'azumEfnk-GI',
+        show: false
     },
     {
         title: 'Bench Press',
-        url: '',
-        Targets: []
+        url: 'SCVCLChPQFY',
+        show: false
     },
     {
-        title: 'Dips',
-        url: '',
-        Targets: []
+        title: 'Kettlebell Snatch',
+        url: 'Pm-b2XFeABA',
+        show: false
+    },
+    {
+        title: 'Box Jump',
+        url: 'NBY9-kTuHEk',
+        show: false
     },
 
 

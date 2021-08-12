@@ -1,52 +1,70 @@
-import React, { useState } from 'react'
-import { FlatList } from 'react-native'
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Button } from 'react-native'
 import { DATA } from './MyData/Tutorial'
+import YoutubePlayer from "react-native-youtube-iframe";
 
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-        <Text style={[styles.title, textColor]}>{item.title}</Text>
-    </TouchableOpacity>
-);
 
 function Tutorials() {
 
-    const data = DATA
-
-    const [selectedId, setSelectedId] = useState(null)
-
-    const renderItem = ({ item }) => {
-        const backgroundColor = item.name === selectedId ? "#6e3b6e" : "#f9c2ff";
-        const color = item.name === selectedId ? 'white' : 'black';
+    const [data, setData] = useState([])
 
 
+    useEffect(() => {
+        setData([...DATA])
+    }, [data])25
 
-        return (
+    const handleDisplay = (video) => {
+        const index = data.findIndex((d) => d === video)
+        const targetVideo = data.find((d) => d === video)
 
-            <Item
-                item={item}
-                onPress={() => setSelectedId(item.name)}
-                backgroundColor={{ backgroundColor }}
-                textColor={{ color }}
-            />
-        );
-    };
-
-
+        const currentVideo = [...data].map((prev, idx) => {
+            if (idx === index) {
+                targetVideo.show = !targetVideo.show
+            }
+            return prev
+        })
+        console.log(currentVideo)
+        setData(currentVideo)
+    }
 
     return (
+        <View>
 
-        <View style={styles.container}>
-            <FlatList
-                data={data}
-                keyExtractor={(id) => id.title}
-                render={renderItem}
-                extraData={selectedId}
-            />
-        </View>
+            <View style={{ flex: 1 }}>
+                <Text style={styles.title}>Tutorials</Text>
+            </View >
 
+            <ScrollView style={{ width: 'auto', marginTop: 70 }}>
+
+                {data.map((video => {
+                    return <View key={video.title}>
+                        <ScrollView >
+                            <TouchableOpacity style={styles.video} onPress={() => handleDisplay(video)}>
+                                <Text style={styles.text}>
+                                    {video.title}
+                                </Text>
+                                <View style={{ display: video.show ? 'flex' : 'none' }}>
+
+
+                                    <YoutubePlayer
+                                        height={240}
+                                        play={false}
+                                        videoId={video.uri}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+
+                        </ScrollView>
+                    </View>
+                }))}
+            </ScrollView>
+
+
+
+        </View >
     )
 }
 
@@ -59,10 +77,39 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'salmon',
     },
-    image: {
-        height: 250,
-        width: 250
+    text: {
+        fontSize: 30,
+        color: 'salmon',
+        textAlign: 'center',
+        marginVertical: 10
+    },
+    btn: {
+        borderColor: 'black',
+        borderWidth: 5,
+    },
+    title: {
+        fontSize: 40,
+        textAlign: 'center',
+        fontWeight: '900',
+        color: 'salmon',
+        textShadowColor: 'black',
+        textShadowOffset: {
+            width: 3,
+            height: 3
+        },
+        textShadowRadius: 10
+    },
+    video: {
+        margin: 10,
+        borderColor: 'salmon',
+        borderWidth: 5,
+        justifyContent: 'center',
+        alignContent: 'center',
+        textAlign: 'center',
+        paddingHorizontal: 10,
+
     }
+
 });
