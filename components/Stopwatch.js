@@ -46,6 +46,11 @@ export default class Stopwatch extends Component {
 
         return (
             <View style={styles.mainContainer}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        Stopwatch
+                    </Text>
+                </View>
                 <View style={styles.display} >
                     <Text style={styles.text}>
                         {hours} : {minutes} : {seconds} : {centiseconds}
@@ -86,16 +91,29 @@ export default class Stopwatch extends Component {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        padding: 20,
+        padding: 10,
         justifyContent: 'center',
         alignContent: 'center',
         backgroundColor: '#007cc7',
-
     },
-    text: {
+    titleContainer: {
+        marginTop: 40
+    },
+    title: {
         fontSize: 40,
         textAlign: 'center',
-        fontWeight: '900',
+        color: '#ffdf6c',
+        textShadowColor: 'black',
+        textShadowOffset: {
+            width: 3,
+            height: 3
+        },
+        textShadowRadius: 10
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginHorizontal: 10,
         color: 'black',
         textShadowColor: 'white',
         textShadowOffset: {
@@ -106,31 +124,28 @@ const styles = StyleSheet.create({
     },
     display: {
         flex: 1,
-        marginTop: 80,
+        marginTop: 50,
         textAlign: 'center',
         borderWidth: 5,
-        padding: 10,
         justifyContent: 'center',
         borderRadius: 15,
         backgroundColor: '#ffdf6c',
     },
     buttons: {
         borderColor: 'black',
-        borderWidth: 5,
+        borderWidth: 3,
         backgroundColor: '#ffdf6c',
-        paddingHorizontal: 50,
-        paddingVertical: 50,
         borderRadius: 15,
-        margin: 10
     },
     controls: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
     },
     textBtn: {
-        fontSize: 25,
-        color: "black"
+        fontSize: 20,
+        color: "black",
+        textAlign: 'center',
+        paddingVertical: 10
     }
 })

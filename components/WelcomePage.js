@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 
-function Home() {
+function WelcomePage() {
 
     const [dt, setDt] = useState(new Date().toLocaleString());
 
@@ -17,6 +17,7 @@ function Home() {
     return (
 
         <View style={styles.mainContainer}>
+            <Text style={styles.title}>Welcome</Text>
             <Icon name="today" size={100} color="#f75990" />
             <Text style={styles.text}>
                 {dt}
@@ -26,7 +27,7 @@ function Home() {
     )
 }
 
-export default Home
+export default WelcomePage
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -38,7 +39,19 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        fontSize: 60,
+        fontSize: 25,
+        textAlign: 'center',
+        color: '#f75990',
+        textShadowColor: 'black',
+        textShadowOffset: {
+            width: 3,
+            height: 3
+        },
+        textShadowRadius: 10
+    },
+    title: {
+        fontSize: 40,
+        marginBottom: 20,
         textAlign: 'center',
         fontWeight: '900',
         color: 'black',
@@ -49,4 +62,5 @@ const styles = StyleSheet.create({
         },
         textShadowRadius: 10
     },
+
 })

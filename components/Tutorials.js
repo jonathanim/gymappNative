@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from 'react-native'
-import { ScrollView } from 'react-native'
-import { View, Text, StyleSheet, Button } from 'react-native'
-import { DATA } from './MyData/Tutorial'
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native'
+import { DATA } from './Data/Videos'
 import YoutubePlayer from "react-native-youtube-iframe";
+import { FlatList } from "react-native";
+
 
 
 
@@ -14,7 +14,7 @@ function Tutorials() {
 
     useEffect(() => {
         setData([...DATA])
-    }, [data])
+    }, [])
 
     const handleDisplay = (video) => {
         const index = data.findIndex((d) => d === video)
@@ -26,43 +26,41 @@ function Tutorials() {
             }
             return prev
         })
-        console.log(currentVideo)
         setData(currentVideo)
     }
 
     return (
-        <View>
+        <View style={styles.mainContainer}>
 
-            <View style={{ flex: 1 }}>
+            <View style={styles.titleContainer}>
                 <Text style={styles.title}>Tutorials</Text>
             </View >
 
-            <ScrollView style={{ width: 'auto', marginTop: 70 }}>
-
+            <ScrollView >
                 {data.map((video => {
-                    return <View key={video.title}>
-                        <ScrollView >
-                            <TouchableOpacity style={styles.video} onPress={() => handleDisplay(video)}>
-                                <Text style={styles.text}>
-                                    {video.title}
-                                </Text>
-                                <View style={{ display: video.show ? 'flex' : 'none' }}>
+                    return <View key={video.title} >
+                        <Button title={video.title} style={styles.subtitle} onPress={() => handleDisplay(video)}>
+                            {video.title}
+                        </Button>
+                        <View style={{ display: video.show ? 'flex' : 'none', }}>
+                            <YoutubePlayer
+                                height={400}
+                                play={false}
+                                videoId={video.uri}
 
+                                webViewProps={{
+                                    allowsInlineMediaPlayback: false,
+                                    allowsFullscreenVideo: true,
+                                    androidLayerType: 'hardware'
+                                }}
+                            />
+                        </View>
 
-                                    <YoutubePlayer
-                                        height={240}
-                                        play={false}
-                                        videoId={video.uri}
-                                    />
-                                </View>
-                            </TouchableOpacity>
-
-                        </ScrollView>
                     </View>
                 }))}
             </ScrollView>
 
-
+            {/*  */}
 
         </View >
     )
@@ -73,27 +71,21 @@ export default Tutorials
 
 
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         flex: 1,
+        padding: 20,
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'salmon',
+        alignContent: 'center',
+        backgroundColor: 'aqua',
+
     },
-    text: {
-        fontSize: 30,
-        color: 'salmon',
-        textAlign: 'center',
-        marginVertical: 10
-    },
-    btn: {
-        borderColor: 'black',
-        borderWidth: 5,
+    titleContainer: {
+        marginTop: 40
     },
     title: {
         fontSize: 40,
         textAlign: 'center',
-        fontWeight: '900',
-        color: 'salmon',
+        color: '#ffdf6c',
         textShadowColor: 'black',
         textShadowOffset: {
             width: 3,
@@ -101,15 +93,23 @@ const styles = StyleSheet.create({
         },
         textShadowRadius: 10
     },
-    video: {
-        margin: 10,
-        borderColor: 'salmon',
-        borderWidth: 5,
-        justifyContent: 'center',
-        alignContent: 'center',
+    subtitle: {
+        fontSize: 15,
         textAlign: 'center',
-        paddingHorizontal: 10,
-
+        color: 'black',
+        textShadowColor: 'white',
+        textShadowOffset: {
+            width: 3,
+            height: 3
+        },
+        textShadowRadius: 10
+    },
+    video: {
+        borderColor: 'black',
+        borderWidth: 3,
+        marginTop: 5,
+        backgroundColor: 'orange'
     }
+
 
 });

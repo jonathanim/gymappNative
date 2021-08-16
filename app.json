@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "GymApp",
-    "slug": "GymApp",
+    "name": "Gym App",
+    "slug": "playground",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "adaptiveIcon": {

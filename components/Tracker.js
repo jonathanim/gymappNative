@@ -3,20 +3,19 @@ import React, { useState } from 'react'
 import { FlatList } from 'react-native';
 import {
     View, TouchableOpacity, StyleSheet, TextInput, Text,
-    TouchableWithoutFeedback, Keyboard,
 } from 'react-native'
-import { Slider } from 'react-native-elements'
-import { Icon } from 'react-native-elements';
+import { Slider, Icon } from 'react-native-elements'
 import uuid from 'react-uuid'
-
+import List from './List';
+import DismissKeyboard from './DismissKeyboard';
 
 function Tracker() {
 
 
     const [exercises, setExercises] = useState([]);
-    const [name, setName] = useState('');
+    const [name, setName] = useState('BenchPress');
     const [sets, setSets] = useState(1);
-    const [reps, setReps] = useState(1);
+    const [reps, setReps] = useState(8);
     const [id, setId] = useState(1)
     const [selectedId, setSelectedId] = useState(null);
     const [completed, setCompleted] = useState(false);
@@ -46,7 +45,7 @@ function Tracker() {
     const reset = () => {
         setName('');
         setSets(1);
-        setReps(1);
+        setReps(8);
         setCompleted(false)
     }
 
@@ -64,65 +63,107 @@ function Tracker() {
         setExercises(newExercises)
     }
 
-    const Item = ({ item }) => (
-        <TouchableOpacity key={id} onPress={() => setSelectedId(item.id)} style={[styles.item]}>
-            <Text style={[styles.exercise, { textDecorationLine: item.completed ? 'line-through' : 'none' }, { color: item.completed ? 'green' : 'black', fontSize: item.completed ? 25 : 20 }]}>{item.name}</Text>
-            <Text style={[styles.exercise, { textDecorationLine: item.completed ? 'line-through' : 'none' }, { color: item.completed ? 'green' : 'black', fontSize: item.completed ? 25 : 20 }]}>{item.sets}</Text>
-            <Text style={[styles.exercise, { textDecorationLine: item.completed ? 'line-through' : 'none' }, { color: item.completed ? 'green' : 'black', fontSize: item.completed ? 25 : 20 }]}>{item.reps}</Text>
-            <Icon name='check' color="green" size={50} onPress={() => handleCompleted(item.id)} />
-            <Icon name='close' color="red" size={50} onPress={() => removeItem(item.id)} />
-        </TouchableOpacity>
-    );
-
-
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <View style={styles.mainContainer}>
-                <Text style={styles.text}>Exercise: {name}</Text>
-                <TextInput
-                    type="text"
-                    name='name'
-                    style={styles.input}
-                    placeholder="add an exercise"
-                    value={name}
-                    onChangeText={(text) => setName(text)}
-                />
 
-                <Slider
-                    value={sets}
-                    name="sets"
-                    minimumValue={1}
-                    maximumValue={20}
-                    onValueChange={value => setSets(Math.round(value))}
-                />
-                <Text style={styles.text}>Sets: {sets}</Text>
-                <Slider
-                    name="reps"
-                    value={reps}
-                    minimumValue={1}
-                    maximumValue={100}
-                    onValueChange={value => setReps(Math.round(value))}
-                />
-                <Text style={styles.text}>Reps:{reps}</Text>
-                <TouchableOpacity
-                    style={styles.buttons}
-                    onPress={() => handleSubmit()}
-                >
-                    <Text style={styles.textBtn}>submit</Text>
-                </TouchableOpacity>
-                <View style={{ flex: 3 }}>
-                    <Text style={{ textAlign: 'center', fontSize: 30 }}>Exercise Sets Reps</Text>
-                    <FlatList
-                        data={exercises}
-                        renderItem={Item}
-                        extraData={selectedId}
-                        keyExtractor={item => item.id}
-                    />
+        <View style={styles.mainContainer}>
+            <DismissKeyboard >
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        Exercises Tracker
+                    </Text>
                 </View>
-            </View >
+            </DismissKeyboard>
 
-        </TouchableWithoutFeedback >
+            <TextInput
+                type="text"
+                name='name'
+                style={styles.input}
+                placeholder="add an exercise"
+                value={name}
+                onChangeText={(text) => setName(text)}
+            />
+            <Slider
+                trackStyle={{
+                    height: 5,
+                }}
+                thumbStyle={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 50,
+                    width: 50,
+                    backgroundColor: 'white',
+                    borderRadius: 15,
+                    borderColor: 'black',
+                    borderWidth: 3,
+                    padding: 3,
+                }}
+                thumbProps={{
+                    children: <Icon
+                        name='arrows-alt-h'
+                        type='font-awesome-5'
+                        color='red'
+                        size={35}
+                    />
+                }}
+                value={sets}
+                name="sets"
+                minimumValue={1}
+                maximumValue={20}
+                onValueChange={value => setSets(Math.round(value))}
+            />
+            <Text style={styles.text}>Sets: {sets}</Text>
+            <Slider
+                thumbStyle={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: 50,
+                    width: 50,
+                    backgroundColor: 'white',
+                    borderRadius: 15,
+                    borderColor: 'black',
+                    borderWidth: 3,
+                    padding: 3,
+                }}
+                thumbProps={{
+                    children: <Icon
+                        name='arrows-alt-h'
+                        type='font-awesome-5'
+                        color='red'
+                        size={35}
+                    />
+                }}
+
+                name="reps"
+                value={reps}
+                minimumValue={1}
+                maximumValue={100}
+                onValueChange={value => setReps(Math.round(value))}
+            />
+            <Text style={styles.text}>Reps:{reps}</Text>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleSubmit()}
+            >
+                <Icon
+                    name='plus'
+                    type='font-awesome'
+                    color="white"
+                    size={30}
+                />
+            </TouchableOpacity>
+
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    data={exercises}
+                    renderItem={({ item }) => <List item={item} handleCompleted={handleCompleted} removeItem={removeItem} setSelectedId={setSelectedId} />}
+                    extraData={selectedId}
+                    keyExtractor={item => item.id}
+                />
+            </View>
+
+        </View>
+
     )
 }
 
@@ -143,12 +184,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'aqua',
 
     },
-    text: {
+    titleContainer: {
+        marginTop: 40
+    },
+    title: {
         fontSize: 40,
         textAlign: 'center',
-        fontWeight: '900',
-        color: 'black',
-        textShadowColor: 'white',
+        color: '#ffdf6c',
+        textShadowColor: 'black',
         textShadowOffset: {
             width: 3,
             height: 3
@@ -165,14 +208,13 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         backgroundColor: '#ffdf6c',
     },
-    buttons: {
-        borderColor: 'black',
-        borderWidth: 5,
-        backgroundColor: '#007cc7',
-        paddingHorizontal: 5,
+    button: {
+        borderColor: 'white',
+        borderWidth: 3,
+        backgroundColor: 'black',
         paddingVertical: 10,
         borderRadius: 15,
-        margin: 10
+        marginTop: 10
     },
     controls: {
         flex: 1,
@@ -180,41 +222,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    textBtn: {
-        fontSize: 30,
-        color: "white",
-        textAlign: 'center'
-    },
     input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 5,
-        padding: 10,
-        fontSize: 15,
-        backgroundColor: 'white'
-    },
-    listItem: {
-        flex: 1,
-        padding: 10,
-        borderColor: 'black',
-        borderWidth: 4,
-        margin: 5
-
-    }, exercise: {
-        textAlign: 'center',
-        color: 'black',
-        fontSize: 15,
-        flexDirection: 'row',
-        margin: 10,
+        height: 50,
+        borderWidth: 3,
+        textAlign: "center",
+        backgroundColor: 'white',
+        marginVertical: 10
     },
     item: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        alignSelf: 'auto',
-        alignItems: 'center',
-        borderWidth: 5,
-        margin: 5,
+        borderWidth: 2,
+        padding: 5,
+        marginTop: 5,
 
+    },
+    normal: {
+        color: 'black',
     }
 
 })
