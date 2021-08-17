@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import Quotes from "./Quotes";
 
 function WelcomePage() {
 
@@ -17,6 +17,7 @@ function WelcomePage() {
     return (
 
         <View style={styles.mainContainer}>
+            <Quotes />
             <Text style={styles.title}>Welcome</Text>
             <Icon name="today" size={100} color="#f75990" />
             <Text style={styles.text}>
