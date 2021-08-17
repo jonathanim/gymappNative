@@ -1,9 +1,6 @@
-Boilerplate to get started with React-Native! 
-Click on use as Template and get straight into a project.
+This application is made from expo 
+with react native
 
-PreReqs-> Expo Go app downloaded
-PreReqs-> before beginning to code run -> npm install 
+has features such as a stopwatch, exercise tracker, video tutorials, BMI calculator, 
+date features, and wisdom quotes.
 
-+ All react navigation (bottom tab, stack navigator, drawer)
-+ can use iframes if you want to use Gifs
-+ Color theme 

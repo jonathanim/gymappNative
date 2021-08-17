@@ -42,7 +42,7 @@ function Quotes() {
                 </Text>
 
             }
-            <Button title="Quote of the day" color="#f75990" onPress={() => getSingleQuote(quotes)} />
+            <Button title="Wisdom of the Day" color="#f75990"  onPress={() => getSingleQuote(quotes)} />
         </View >
     )
 }
