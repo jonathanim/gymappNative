@@ -43,7 +43,7 @@ function Tracker() {
     }
 
     const reset = () => {
-        setName('');
+        setName(name);
         setSets(1);
         setReps(8);
         setCompleted(false)
