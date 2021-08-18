@@ -17,7 +17,7 @@ function Tracker() {
   const [name, setName] = useState("BenchPress");
   const [sets, setSets] = useState(1);
   const [reps, setReps] = useState(8);
-  const [id, setId] = useState(1);
+  const [id, setId] = useState("");
   const [selectedId, setSelectedId] = useState(null);
   const [completed, setCompleted] = useState(false);
 
@@ -145,26 +145,39 @@ function Tracker() {
 
         <Text style={styles.text}>Reps:{reps}</Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-          padding: 10,
-        }}
-      >
-        <FlatList
-          data={exercises}
-          renderItem={({ item }) => (
-            <List
-              item={item}
-              handleCompleted={handleCompleted}
-              removeItem={removeItem}
-              setSelectedId={setSelectedId}
-            />
-          )}
-          extraData={selectedId}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
+      {exercises.length === 0 ? (
+        <View
+          style={{
+            flex: 1,
+            padding: 10,
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Text style={styles.temporaryText}>Add an exercise</Text>
+        </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            padding: 10,
+          }}
+        >
+          <FlatList
+            data={exercises}
+            renderItem={({ item }) => (
+              <List
+                item={item}
+                handleCompleted={handleCompleted}
+                removeItem={removeItem}
+                setSelectedId={setSelectedId}
+              />
+            )}
+            extraData={selectedId}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      )}
     </View>
   );
 }
@@ -232,5 +245,11 @@ const styles = StyleSheet.create({
   text: {
     color: "black",
     marginVertical: 10,
+  },
+  temporaryText: {
+    color: "black",
+    fontSize: 30,
+    marginVertical: 10,
+    textAlign: "center",
   },
 });
