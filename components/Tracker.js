@@ -61,6 +61,10 @@ function Tracker() {
     setExercises(newExercises);
   };
 
+  const handleClear = () => {
+    setName("");
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.titleContainer}>
@@ -68,7 +72,13 @@ function Tracker() {
           <Text style={styles.title}>Tracker</Text>
         </DismissKeyboard>
       </View>
-      <View style={{ flexDirection: "row" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
         <TextInput
           type="text"
           name="name"
@@ -78,7 +88,10 @@ function Tracker() {
           onChangeText={(text) => setName(text)}
         />
         <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
-          <Icon name="plus" type="font-awesome" color="white" size={30} />
+          <Icon name="plus" type="font-awesome" color="green" size={30} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => handleClear()}>
+          <Icon name="trash" type="font-awesome" color="yellow" size={30} />
         </TouchableOpacity>
       </View>
       <View style={{ marginVertical: 10 }}>
@@ -240,7 +253,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "white",
     marginVertical: 10,
-    width: "80%",
+    width: "70%",
   },
   text: {
     color: "black",
