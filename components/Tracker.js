@@ -58,8 +58,6 @@ function Tracker() {
       }
       return ex;
     });
-
-    console.log(newExercises);
     setExercises(newExercises);
   };
 

@@ -20,7 +20,6 @@ const Tab = createBottomTabNavigator()
 
 
 
-
 function TabNavigation({ navigation }) {
   return (
     <Tab.Navigator initialRouteName='Welcome' screenOptions={
@@ -48,9 +47,7 @@ function TabNavigation({ navigation }) {
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
       }
-
       )
-
     }>
 
       <Tab.Screen name='Welcome' component={WelcomePage} />
@@ -62,7 +59,6 @@ function TabNavigation({ navigation }) {
 
   )
 }
-
 
 
 function App() {
