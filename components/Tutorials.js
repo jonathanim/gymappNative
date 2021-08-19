@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import { DATA } from "./Data/Videos";
 import YoutubePlayer from "react-native-youtube-iframe";
+import { TouchableOpacity } from "react-native";
 
 function Tutorials() {
   const [data, setData] = useState([]);
@@ -29,17 +30,16 @@ function Tutorials() {
         <Text style={styles.title}>Tutorials</Text>
       </View>
 
-      <ScrollView>
+      <ScrollView style={{ marginTop: 50 }}>
         {data.map((video) => {
           return (
             <View key={video.title}>
-              <Button
-                title={video.title}
+              <TouchableOpacity
                 style={styles.subtitle}
                 onPress={() => handleDisplay(video)}
               >
-                {video.title}
-              </Button>
+                <Text style={styles.videosButton}>{video.title}</Text>
+              </TouchableOpacity>
               <View style={{ display: video.show ? "flex" : "none" }}>
                 <YoutubePlayer
                   height={400}
@@ -68,10 +68,10 @@ export default Tutorials;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     justifyContent: "center",
     alignContent: "center",
-    backgroundColor: "aqua",
+    backgroundColor: "#f194ff",
   },
   titleContainer: {
     marginTop: 40,
@@ -87,16 +87,21 @@ const styles = StyleSheet.create({
     },
     textShadowRadius: 10,
   },
-  subtitle: {
-    fontSize: 15,
+  videosButton: {
+    fontSize: 30,
     textAlign: "center",
-    color: "black",
-    textShadowColor: "white",
+    color: "aqua",
+    textShadowColor: "black",
     textShadowOffset: {
       width: 3,
       height: 3,
     },
     textShadowRadius: 10,
+  },
+  subtitle: {
+    borderWidth: 2,
+    margin: 2,
+    backgroundColor: "black",
   },
   video: {
     borderColor: "black",

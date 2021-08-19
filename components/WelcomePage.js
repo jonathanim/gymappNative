@@ -16,8 +16,10 @@ function WelcomePage() {
 
   return (
     <View style={styles.mainContainer}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>Welcome</Text>
+      </View>
       <Quotes />
-      <Text style={styles.title}>Welcome</Text>
       <Icon name="today" size={100} color="#f75990" />
       <Text style={styles.text}>{dt}</Text>
     </View>
@@ -29,7 +31,7 @@ export default WelcomePage;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     justifyContent: "center",
     alignContent: "center",
     backgroundColor: "#ffdf6c",
@@ -46,14 +48,14 @@ const styles = StyleSheet.create({
     },
     textShadowRadius: 4,
   },
+  titleContainer: {
+    marginTop: 40,
+  },
   title: {
     fontSize: 40,
-    marginTop: 30,
-    marginBottom: 20,
     textAlign: "center",
-    fontWeight: "900",
-    color: "black",
-    textShadowColor: "#f75990",
+    color: "#f75990",
+    textShadowColor: "white",
     textShadowOffset: {
       width: 3,
       height: 3,

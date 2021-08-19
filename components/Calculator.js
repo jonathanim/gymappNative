@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Button,
   Alert,
+  Keyboard,
 } from "react-native";
 import { Input } from "react-native-elements";
 import DismissKeyboard from "./DismissKeyboard";
@@ -86,111 +87,139 @@ export class Calculator extends Component {
 
       this.setBmi(bmi);
       this.resetInputs();
+      Keyboard.dismiss();
     }
   }
 
   render() {
     const { modalVisible } = this.state;
     return (
-      <DismissKeyboard>
-        <View style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
+        <DismissKeyboard>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>BMI</Text>
           </View>
-          <View style={styles.form}>
-            <Input
-              name="height"
-              label="Height"
-              placeholder="Feet"
-              leftIcon={{ type: "font-awesome", name: "arrows-v" }}
-              keyboardType="numeric"
-              value={this.state.feet}
-              onChangeText={(v) => this.handleHeightFeetChange(v)}
-            />
-            <Input
-              name="height"
-              placeholder="Inches"
-              leftIcon={{ type: "font-awesome", name: "arrows-v" }}
-              keyboardType="numeric"
-              value={this.state.inch}
-              onChangeText={(v) => this.handleHeightInchChange(v)}
-            />
-            <Input
-              name="weight"
-              label="Weight"
-              placeholder="In pounds"
-              leftIcon={{ type: "font-awesome", name: "balance-scale" }}
-              keyboardType="numeric"
-              value={this.state.weight}
-              onChangeText={(v) => this.handleWeightChange(v)}
-            />
+        </DismissKeyboard>
+        <View style={styles.form}>
+          <Input
+            style={{ color: "white" }}
+            name="height"
+            label="Height"
+            placeholder="Feet"
+            leftIcon={{
+              type: "font-awesome",
+              name: "arrows-v",
+              color: "white",
+            }}
+            keyboardType="numeric"
+            value={this.state.feet}
+            onChangeText={(v) => this.handleHeightFeetChange(v)}
+          />
+          <Input
+            style={{ color: "white" }}
+            name="height"
+            placeholder="Inches"
+            leftIcon={{
+              type: "font-awesome",
+              name: "arrows-v",
+              color: "white",
+            }}
+            keyboardType="numeric"
+            value={this.state.inch}
+            onChangeText={(v) => this.handleHeightInchChange(v)}
+          />
+          <Input
+            style={{ color: "white" }}
+            name="weight"
+            label="Weight"
+            placeholder="In pounds"
+            leftIcon={{
+              type: "font-awesome",
+              name: "balance-scale",
+              color: "white",
+            }}
+            keyboardType="numeric"
+            value={this.state.weight}
+            onChangeText={(v) => this.handleWeightChange(v)}
+          />
 
-            <View>
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  Alert.alert("Modal has been closed.");
-                  this.setModalVisible(!modalVisible);
-                }}
-              >
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalInfo}>
-                      BMI below 18.5 = Underweight
-                    </Text>
-                    <Text style={styles.modalInfo}>
-                      BMI 18.5 to 24.9 = Normal/Healthy range
-                    </Text>
-                    <Text style={styles.modalInfo}>
-                      BMI 25 to 29.9 = Overweight
-                    </Text>
-                    <Text style={styles.modalInfo}>
-                      BMI 30 and Above = Obese
-                    </Text>
-                    <Text style={{ fontSize: 10, padding: 10 }}>
-                      According to the BMI weight status categories, anyone with
-                      a BMI between 25 and 29.9 would be classified as
-                      overweight and anyone with a BMI over 30 would be
-                      classified as obese. However,
-                      <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-                        {" "}
-                        athletes may have a high BMI because of increased
-                        muscularity rather than increased body fatness. In
-                        general, a person who has a high BMI is likely to have
-                        body fatness and would be considered to be overweight or
-                        obese, but this may not apply to athletes.
-                      </Text>{" "}
-                      A trained healthcare provider should perform appropriate
-                      health assessments to evaluate an individual’s health
-                      status and risks.
-                    </Text>
-                    <TouchableOpacity
-                      style={[styles.button]}
-                      onPress={() => this.setModalVisible(!modalVisible)}
-                    >
-                      <Text style={styles.closeInfo}>Hide Info</Text>
-                    </TouchableOpacity>
-                  </View>
+          <View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+                this.setModalVisible(!modalVisible);
+              }}
+            >
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalInfo}>
+                    BMI below 18.5 = Underweight
+                  </Text>
+                  <Text style={styles.modalInfo}>
+                    BMI 18.5 to 24.9 = Normal/Healthy range
+                  </Text>
+                  <Text style={styles.modalInfo}>
+                    BMI 25 to 29.9 = Overweight
+                  </Text>
+                  <Text style={styles.modalInfo}>BMI 30 and Above = Obese</Text>
+                  <Text style={{ fontSize: 10, padding: 10 }}>
+                    According to the BMI weight status categories, anyone with a
+                    BMI between 25 and 29.9 would be classified as overweight
+                    and anyone with a BMI over 30 would be classified as obese.
+                    However,
+                    <Text style={{ fontWeight: "bold", fontSize: 12 }}>
+                      {" "}
+                      athletes may have a high BMI because of increased
+                      muscularity rather than increased body fatness. In
+                      general, a person who has a high BMI is likely to have
+                      body fatness and would be considered to be overweight or
+                      obese, but this may not apply to athletes.
+                    </Text>{" "}
+                    A trained healthcare provider should perform appropriate
+                    health assessments to evaluate an individual’s health status
+                    and risks.
+                  </Text>
+                  <TouchableOpacity
+                    style={[styles.button]}
+                    onPress={() => this.setModalVisible(!modalVisible)}
+                  >
+                    <Text style={styles.closeInfo}>Hide Info</Text>
+                  </TouchableOpacity>
                 </View>
-              </Modal>
+              </View>
+            </Modal>
+
+            <Text
+              style={{
+                fontSize: 20,
+                textAlign: "center",
+                marginBottom: 20,
+                color: "white",
+              }}
+            >
+              Results: {this.state.bmi}
+            </Text>
+          </View>
+
+          <Button title="Calculate" onPress={() => this.calculateBMI()} />
+
+          {this.state.bmi !== 0 ? (
+            <View style={{ marginTop: 10 }}>
               <TouchableOpacity
                 style={[styles.button]}
                 onPress={() => this.setModalVisible(true)}
               >
                 <Text style={styles.info}> Info</Text>
               </TouchableOpacity>
-              <Text
-                style={{ fontSize: 20, textAlign: "center", marginBottom: 20 }}
-              >
-                Results:{this.state.bmi}{" "}
-              </Text>
             </View>
-            <Button title="Calculate" onPress={() => this.calculateBMI()} />
-          </View>
+          ) : (
+            <View />
+          )}
         </View>
-      </DismissKeyboard>
+      </View>
     );
   }
 }
@@ -200,10 +229,11 @@ export default Calculator;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     justifyContent: "center",
     alignContent: "center",
-    backgroundColor: "aqua",
+    backgroundColor: "black",
+    color: "#f194ff",
   },
   titleContainer: {
     marginTop: 40,
@@ -211,7 +241,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     textAlign: "center",
-    color: "#ffdf6c",
+    color: "#f194ff",
     textShadowColor: "black",
     textShadowOffset: {
       width: 3,
@@ -221,25 +251,29 @@ const styles = StyleSheet.create({
   },
 
   form: {
-    borderColor: "#0275d8",
+    borderColor: "#f194ff",
     borderWidth: 3,
     padding: 15,
+    flex: 4,
   },
   info: {
-    color: "white",
+    color: "#f194ff",
     textAlign: "center",
     marginHorizontal: 5,
     marginVertical: 10,
   },
   closeInfo: {
-    color: "white",
+    color: "#f194ff",
     textAlign: "center",
     marginHorizontal: 5,
   },
   button: {
-    borderBottomColor: "black",
+    borderColor: "#f194ff",
     borderWidth: 2,
     backgroundColor: "black",
+    width: 80,
+    borderRadius: 10,
+    alignSelf: "center",
   },
   centeredView: {
     justifyContent: "center",

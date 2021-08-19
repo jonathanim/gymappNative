@@ -200,7 +200,7 @@ export default Tracker;
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 10,
+    padding: 30,
     justifyContent: "center",
     alignContent: "center",
     backgroundColor: "aqua",

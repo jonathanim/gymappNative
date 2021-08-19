@@ -16,6 +16,7 @@ import Tracker from "./components/Tracker";
 import Tutorials from "./components/Tutorials";
 import Calculator from "./components/Calculator";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { HeaderTitle } from "@react-navigation/stack";
 const Tab = createBottomTabNavigator();
 
 function TabNavigation({ navigation }) {

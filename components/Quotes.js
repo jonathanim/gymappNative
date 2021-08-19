@@ -25,8 +25,8 @@ function Quotes() {
   };
 
   return (
-    <View style={{ marginTop: 15 }}>
-      {quote.author === undefined ? (
+    <View style={{ margin: 15, padding: 10 }}>
+      {quote.author === undefined || quote.text === undefined ? (
         <View />
       ) : (
         <Text style={{ textAlign: "center", fontSize: 15, marginBottom: 20 }}>
